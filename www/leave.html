@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>mmgme M.E.</title>
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" href="css/themes/default/jquery.mobile-1.4.3.min.css">
+	<link rel="stylesheet" href="_assets/css/jqm-demos.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<script src="js/jquery.js"></script>
+	<script src="_assets/js/index.js"></script>
+	<script src="js/jquery.mobile-1.4.3.min.js"></script>
+	<script src="_assets/js/jquery.validate.js"></script>
+</head>
+<body>
+	<div data-role="page" id="leave-page" class="jqm-demos" data-quicklinks="true">
+
+		<div data-role="header" class="jqm-header">
+		<h2><img src="_assets/img/mmg-logo.jpg" alt="jQuery Mobile"></h2>
+		<p>Version 1.0.0</p>
+		<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+	</div><!-- /header -->
+
+    <div role="main" class="ui-content jqm-content">
+
+        <h1>Leave Application Form</h1>
+		
+		<p>Employees who travel overseas should forward their passports to Human Resources at least 3 days for exit permit processing.
+
+		<form id="leave-form">
+		
+        <h2>Employee Info</h2>
+			
+				<label for="name">Name</label>
+				<input type="text" name="name" id="name" value="" required>
+			
+				<label for="position">Position</label>
+				<input type="text" name="position" id="position" value="" required>
+			
+				<label for="department">Department</label>
+				<select name="department" id="department" required>
+					<option value="">---</option>
+					<option value="digital">Digital</option>
+					<option value="studio">Studio</option>
+					<option value="client-servicing">Client Servicing</option>
+					<option value="research-planning">Research & Planning</option>
+				</select>
+			
+				<label for="employee_nos">Employee nos.</label>
+				<input type="text" name="employee_nos" id="employee_nos" value="" required>
+			
+				<label for="joining_date">Joining Date</label>
+				<input type="date" name="joining_date" id="joining_date" value="" required>
+			
+		<h2>Leave Type</h2>
+			
+				<fieldset data-role="controlgroup">
+					<legend>Leave Type</legend>
+						<input type="radio" name="leave_type" id="annual_leave" value="Annual Leave" checked="checked">
+						<label for="annual_leave">Annual Leave</label>
+						<input type="radio" name="leave_type" id="sick_leave" value="Sick Leave">
+						<label for="sick_leave">Sick Leave</label>
+						<input type="radio" name="leave_type" id="bereavement_leave" value="Bereavement Leave">
+						<label for="bereavement_leave">Bereavement Leave</label>
+						<input type="radio" name="leave_type" id="unpaid_leave" value="Unpaid Leave">
+						<label for="unpaid_leave">Unpaid Leave</label>
+						<input type="radio" name="leave_type" id="others" value="Others">
+						<label for="others">Others</label>
+				</fieldset>
+				
+				<label for="address">Address (while on leave)</label>
+				<textarea cols="40" rows="20" name="address" id="address"></textarea>
+				
+				<label for="contact_number">Contact number (while on leave)</label>
+				<textarea cols="40" rows="20" name="contact_number" id="contact_number"></textarea>
+			
+				<label for="start_date">Start Date</label>
+				<input type="date" name="start_date" id="start_date" value="" required>
+			
+				<label for="end_date">End Date</label>
+				<input type="date" name="end_date" id="end_date" value="" required>
+			
+				<label for="no_days">No of days</label>
+				<input type="number" name="no_days" pattern="[0-9]*" id="no_days" value="" required>
+				
+				<label for="explanation">Explanation/reason</label>
+				<input type="text" name="explanation" id="explanation" value="" required>
+			
+				<label for="guarantee">Guarantee on behalf of absence (name)</label>
+				<input type="text" name="guarantee" id="guarantee" value="" required>
+				
+				<br>
+				<br>
+				
+				<input data-role="submit" type="submit" value="submit">
+		</form>
+		
+		<script>
+		$( "#leave-form" ).validate({
+			messages: {
+				name: "Please enter your name.",
+				position: "Please enter your position.",
+				department: "Please select your department.",
+				employee_nos: "Please enter your employee number.",
+				joining_date: "Please select your joining date.",
+				start_date: "Please select the start date.",
+				end_date: "Please select the end date.",
+				no_days: "Please enter the number of days.",
+				explanation: "Please enter the explanation/reason.",
+				guarantee: "Please enter guarantee on behalf of absence."
+			},
+			errorPlacement: function( error, element ) {
+				error.insertAfter( element.parent() );
+			},
+			submitHandler: function() {
+				var postData = $(this).serialize();
+				//alert('test');
+				
+				$.ajax({
+					type: 'POST',
+					data: postData,
+					url: 'http://mmgme.com/mmgapp/process.php',
+					success: function(data){
+						console.log(data);
+						alert('Email was sent');
+						window.location.href="index.html";
+					},
+					error: function(){
+						console.log(data);
+						alert('Email failed');
+					}
+				});
+				
+				return false;        
+			}
+		});
+		
+		/*$('#leave-form').submit(function(event){
+			var postData = $(this).serialize();
+			//alert('test');
+			
+			$.ajax({
+				type: 'POST',
+				data: postData,
+				url: 'http://mmgme.com/mmgapp/process.php',
+				success: function(data){
+					console.log(data);
+					alert('Email was sent');
+				},
+				error: function(){
+					console.log(data);
+					alert('Email failed');
+				}
+			});
+			
+			return false;
+		});*/
+		</script>
+        
+		
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
+		<p>mmg M.E. Employee Self-Service App</p>
+		<p>Copyright 2014 mmg M.E.</p>
+	</div><!-- /footer -->
+	
+	<div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
+	    	<ul class="jqm-list ui-alt-icon ui-nodisc-icon">
+				<li data-filtertext="demos homepage" data-icon="home"><a href="/">Home</a></li>
+				<li data-role="collapsible" data-enhanced="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false" class="ui-collapsible ui-collapsible-themed-content ui-collapsible-collapsed">
+					<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
+						<a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
+							Request<span class="ui-collapsible-heading-status"> click to expand contents</span>
+						</a>
+					</h3>
+					<div class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed" aria-hidden="true">
+						<ul>
+							<li><a href="leave.html">Leave Form</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+	</div><!-- /panel -->
+
+</div><!-- /page -->
+
+</body>
+</html>
